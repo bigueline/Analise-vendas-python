@@ -78,6 +78,26 @@ print(df_vendas.head())
 print("\nQuantidade de linhas e colunas:")
 print(df_vendas.shape)
 
+# Mostra os tipos antes do tratamento.
+print("\nTipos das colunas antes do tratamento:")
+print(df_vendas.dtypes)
+
+# Converte os textos em datas.
+# Datas inválidas serão marcadas como NaT (data ausente).
+df_vendas["data_venda"] = pd.to_datetime(
+    df_vendas["data_venda"],
+    format="%Y-%m-%d",
+    errors="coerce"
+)
+
+# Conta os valores ausentes em cada coluna.
+print("\nValores ausentes por coluna:")
+print(df_vendas.isna().sum())
+
+# Confere o tipo das datas após a conversão.
+print("\nTipo da coluna data_venda após o tratamento:")
+print(df_vendas["data_venda"].dtype)
+
 # Fecha a conexão ao terminar.
 conexao.close()
 
