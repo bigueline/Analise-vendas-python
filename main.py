@@ -1,5 +1,7 @@
 import sqlite3
 
+import pandas as pd
+
 # Abre o banco ou cria o arquivo, caso ainda não exista.
 conexao = sqlite3.connect("dados_vendas.db")
 
@@ -63,6 +65,18 @@ cursor.execute("SELECT COUNT(*) FROM vendas1")
 total = cursor.fetchone()[0]
 
 print(f"Total de vendas cadastradas: {total}")
+
+# Lê as vendas do banco e cria um DataFrame.
+df_vendas = pd.read_sql_query(
+    "SELECT * FROM vendas1 ORDER BY id_venda",
+    conexao
+)
+
+print("\nPrimeiras cinco vendas:")
+print(df_vendas.head())
+
+print("\nQuantidade de linhas e colunas:")
+print(df_vendas.shape)
 
 # Fecha a conexão ao terminar.
 conexao.close()
