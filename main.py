@@ -2,6 +2,9 @@ import sqlite3
 
 import pandas as pd
 
+from pathlib import Path
+import matplotlib.pyplot as plt
+
 # Abre o banco ou cria o arquivo, caso ainda não exista.
 conexao = sqlite3.connect("dados_vendas.db")
 
@@ -133,4 +136,32 @@ print(f"\nSoma dos meses: R$ {faturamento_mensal.sum():.2f}")
 
 # Fecha a conexão ao terminar.
 conexao.close()
+
+# Cria a pasta onde salvaremos os gráficos.
+Path("graficos").mkdir(exist_ok=True)
+
+# Converte os períodos em textos para o eixo horizontal.
+meses = faturamento_mensal.index.astype(str)
+
+# Cria a figura e desenha a linha com um ponto por mês.
+plt.figure(figsize=(10, 5))
+plt.plot(
+    meses,
+    faturamento_mensal.values,
+    marker="o",
+    color="#2563EB",
+    linewidth=2
+)
+
+plt.title("Faturamento mensal — 2023")
+plt.xlabel("Mês")
+plt.ylabel("Faturamento (R$)")
+plt.ylim(bottom=0)
+plt.xticks(rotation=45)
+plt.grid(axis="y", alpha=0.3)
+plt.tight_layout()
+
+# Salva antes de abrir a janela do gráfico.
+plt.savefig("graficos/faturamento_mensal.png", dpi=150)
+plt.show()
 
