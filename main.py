@@ -116,6 +116,21 @@ faturamento_categoria = (
 print("\nFaturamento por categoria:")
 print(faturamento_categoria)
 
+# Extrai o ano e o mês de cada venda.
+df_vendas["mes"] = df_vendas["data_venda"].dt.to_period("M")
+
+# Soma o faturamento de cada mês em ordem cronológica.
+faturamento_mensal = (
+    df_vendas.groupby("mes")["valor_venda"]
+    .sum()
+    .sort_index()
+)
+
+print("\nFaturamento por mês:")
+print(faturamento_mensal)
+
+print(f"\nSoma dos meses: R$ {faturamento_mensal.sum():.2f}")
+
 # Fecha a conexão ao terminar.
 conexao.close()
 
