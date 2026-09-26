@@ -98,6 +98,24 @@ print(df_vendas.isna().sum())
 print("\nTipo da coluna data_venda após o tratamento:")
 print(df_vendas["data_venda"].dtype)
 
+# Calcula o faturamento total e o valor médio por venda.
+faturamento_total = df_vendas["valor_venda"].sum()
+valor_medio = df_vendas["valor_venda"].mean()
+
+print("\nResumo das vendas:")
+print(f"Faturamento total: R$ {faturamento_total:.2f}")
+print(f"Valor médio por venda: R$ {valor_medio:.2f}")
+
+# Soma os valores de cada categoria e ordena do maior para o menor.
+faturamento_categoria = (
+    df_vendas.groupby("categoria")["valor_venda"]
+    .sum()
+    .sort_values(ascending=False)
+)
+
+print("\nFaturamento por categoria:")
+print(faturamento_categoria)
+
 # Fecha a conexão ao terminar.
 conexao.close()
 
