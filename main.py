@@ -5,6 +5,8 @@ import pandas as pd
 from pathlib import Path
 import matplotlib.pyplot as plt
 
+import seaborn as sns
+
 # Abre o banco ou cria o arquivo, caso ainda não exista.
 conexao = sqlite3.connect("dados_vendas.db")
 
@@ -163,5 +165,29 @@ plt.tight_layout()
 
 # Salva antes de abrir a janela do gráfico.
 plt.savefig("graficos/faturamento_mensal.png", dpi=150)
+plt.show()
+
+# Compara o faturamento total das categorias.
+plt.figure(figsize=(8, 5))
+
+ax = sns.barplot(
+    x=faturamento_categoria.index,
+    y=faturamento_categoria.values,
+    color="#2563EB",
+    errorbar=None
+)
+
+# Exibe o valor acima de cada barra.
+ax.bar_label(ax.containers[0], fmt="R$ %.2f", padding=5)
+
+plt.title("Faturamento por categoria — 2023")
+plt.xlabel("Categoria")
+plt.ylabel("Faturamento (R$)")
+
+# Deixa espaço acima das barras para os valores.
+plt.ylim(0, faturamento_categoria.max() * 1.15)
+plt.tight_layout()
+
+plt.savefig("graficos/faturamento_categoria.png", dpi=150)
 plt.show()
 
